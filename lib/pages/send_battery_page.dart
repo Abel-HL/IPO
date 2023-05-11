@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:trabajo_final/components/my_button.dart';
+import 'package:trabajo_final/components/buttons/my_button.dart';
+import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'package:trabajo_final/components/my_textfield.dart';
 import 'dart:math';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:trabajo_final/pages/login_page.dart';
+import '../operations/battery_field.dart';
 import 'home_page.dart';
 import 'receive_battery_page.dart';
 
-class SendBatteryPage extends StatelessWidget{
-  SendBatteryPage({Key? key}) : super(key: key);
+class SendBatteryPage extends StatefulWidget{
+  const SendBatteryPage({super.key});
 
+  @override
+  BatteryScreenState createState() => BatteryScreenState();
+}
 
-  // text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+class BatteryScreenState extends State<SendBatteryPage> {
+  int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
+  final int _maxmAh = 5000;
 
-  // SingIn user in method
-  void signUserIn(BuildContext context) {
-    // Aquí agregas la lógica para autenticar al usuario y manejar la navegación a la página de inicio ("home page")
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (BuildContext context) => const HomePage()),
+  void _showBatteryPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BatteryPopup(
+          initialValue: _batteryPercentage,
+          onChanged: (value) {
+            setState(() {
+              _batteryPercentage = value;
+            });
+          },
+        );
+      },
     );
+  }
+
+  int calculatemAhFromPercentage(int percentage) {
+    return (percentage / 100 * _maxmAh).floor();
   }
 
 
@@ -176,20 +193,50 @@ class SendBatteryPage extends StatelessWidget{
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
 
-                  const Text(
-                    'Send:  10%     500mAh',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                    ),
+  /*
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _showBatteryPopup(context);
+                        },
+                        child: Column(
+                          children: [
+                            BatteryField(
+                              percentage: _batteryPercentage,
+                              showPercentageLabel: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
 
+  */
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BatteryField(percentage: _batteryPercentage, showPercentageLabel: true),
+                      const SizedBox(width: 20), // Espacio entre el texto y el botón
+                      CustomButton(
+                        text: 'Change %',
+                        onPressed: () {
+                          _showBatteryPopup(context);
+                        },
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+
+
+
                   //forgot password??
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -220,10 +267,10 @@ class SendBatteryPage extends StatelessWidget{
                     ],
                   ),
 
-                  const SizedBox(height: 68),
+                  const SizedBox(height: 60),
                   //sign in button
                   MyButton(
-                    onTap: () => signUserIn(context),
+                    onTap: () => const HomePage(),
                     text: 'Send',
                   ),
 
@@ -245,3 +292,7 @@ class SendBatteryPage extends StatelessWidget{
     );
   }
 }
+
+
+
+

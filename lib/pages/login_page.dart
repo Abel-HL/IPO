@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trabajo_final/components/my_button.dart';
+import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/my_textfield.dart';
 
 

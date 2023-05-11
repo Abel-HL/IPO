@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trabajo_final/components/my_button.dart';
+import 'package:trabajo_final/components/buttons/my_button.dart';
+import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'dart:math';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -9,10 +10,12 @@ import '../operations/battery_field.dart';
 import 'home_page.dart';
 import 'send_battery_page.dart';
 
-int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
-const int _maxmAh = 5000;
+// int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
+// const int _maxmAh = 5000;
 
 class ReceiveBatteryPage extends StatefulWidget{
+  const ReceiveBatteryPage({super.key});
+
 
   @override
   BatteryScreenState createState() => BatteryScreenState();
@@ -44,7 +47,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mAh = calculatemAhFromPercentage(_batteryPercentage);
+    // final mAh = calculatemAhFromPercentage(_batteryPercentage);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -217,7 +220,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
 
 
                   const SizedBox(height: 30),
-
+                  /*
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -232,6 +235,23 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                             ),
                           ],
                         ),
+                      ),
+                    ],
+                  ),
+                  */
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BatteryField(percentage: _batteryPercentage, showPercentageLabel: true),
+                      const SizedBox(width: 20), // Espacio entre el texto y el botón
+                      CustomButton(
+                        text: 'Change %',
+                        onPressed: () {
+                          _showBatteryPopup(context);
+                        },
+                        color: Colors.white,
                       ),
                     ],
                   ),
@@ -267,7 +287,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                     ],
                   ),
 
-                  const SizedBox(height: 68),
+                  const SizedBox(height: 46),
                   //sign in button
                   MyButton(
                     onTap: () => const HomePage(),
