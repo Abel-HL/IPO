@@ -65,31 +65,54 @@ class BatteryPopupState extends State<BatteryPopup> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: SizedBox(
-        height: 240,
-        width: 240,
+        height: 220,
+        width: 220,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Select Battery Percentage',
+              'Select Battery',
               style: TextStyle(
-                color: Colors.black,
+                color: Color(0xFF075E95),
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 16),
+            Text(
+              'Percentage: $_batteryPercentage%',
+              style: const TextStyle(
+                color: Color(0xFF075E95),
+                fontFamily: 'Nunito',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Capacity: ${(5000 * _batteryPercentage / 100).toStringAsFixed(0)} mAh',
+              style: const TextStyle(
+                color: Color(0xFF075E95),
+                fontFamily: 'Nunito',
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 6),
             Slider(
               value: _batteryPercentage.toDouble(),
               min: 5,
               max: 20,
-              divisions: 5,
+              divisions: 3,
+              activeColor: const Color(0xFF075E95),
               onChanged: (double value) {
                 setState(() {
                   _batteryPercentage = value.toInt();
                 });
               },
             ),
+            const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -97,12 +120,20 @@ class BatteryPopupState extends State<BatteryPopup> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.grey.withOpacity(0.2), // Color de fondo del botón
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Espaciado interno del botón
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8), // Bordes redondeados del botón
+                    ),
+                  ),
                   child: const Text(
                     'CANCEL',
                     style: TextStyle(
-                      color: Colors.red,
+                      color: Colors.grey,
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
@@ -111,12 +142,20 @@ class BatteryPopupState extends State<BatteryPopup> {
                     widget.onChanged(_batteryPercentage);
                     Navigator.of(context).pop();
                   },
+                  style: TextButton.styleFrom(
+                    backgroundColor:const Color(0xFF075E95).withOpacity(0.3), // Color de fondo con opacidad reducida
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   child: const Text(
                     'OK',
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Color(0xFF075E95),
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
@@ -126,5 +165,7 @@ class BatteryPopupState extends State<BatteryPopup> {
         ),
       ),
     );
+
+
   }
 }

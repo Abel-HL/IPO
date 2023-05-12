@@ -18,6 +18,7 @@ class SendBatteryPage extends StatefulWidget{
 }
 
 class BatteryScreenState extends State<SendBatteryPage> {
+  bool showPopup = false;
   int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
   final int _maxmAh = 5000;
 
@@ -195,29 +196,6 @@ class BatteryScreenState extends State<SendBatteryPage> {
 
                   const SizedBox(height: 20),
 
-  /*
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          _showBatteryPopup(context);
-                        },
-                        child: Column(
-                          children: [
-                            BatteryField(
-                              percentage: _batteryPercentage,
-                              showPercentageLabel: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-  */
-
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -234,10 +212,8 @@ class BatteryScreenState extends State<SendBatteryPage> {
                   ),
 
 
-
                   //forgot password??
                   const SizedBox(height: 20),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
