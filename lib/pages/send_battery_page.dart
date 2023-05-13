@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
-import 'package:trabajo_final/components/my_textfield.dart';
 import 'dart:math';
 import 'package:trabajo_final/globals/total_battery.dart';
 
@@ -9,6 +8,7 @@ import 'package:trabajo_final/globals/total_battery.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:trabajo_final/pages/login_page.dart';
 import '../operations/battery_field.dart';
+import 'contacts_page.dart';
 import 'home_page.dart';
 import 'receive_battery_page.dart';
 
@@ -261,7 +261,13 @@ class BatteryScreenState extends State<SendBatteryPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            PageRouteBuilder(
+                              transitionDuration: Duration.zero,
+                              pageBuilder: (context, animation, secondaryAnimation) => const ContactPage(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                return child;
+                              },
+                            ),
                           );
                         },
                         child: const Icon(

@@ -4,6 +4,7 @@ import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'dart:math';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:trabajo_final/pages/contacts_page.dart';
 import 'package:trabajo_final/pages/login_page.dart';
 
 import '../globals/total_battery.dart';
@@ -285,7 +286,13 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            PageRouteBuilder(
+                              transitionDuration: Duration.zero,
+                              pageBuilder: (context, animation, secondaryAnimation) => const ContactPage(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                return child;
+                              },
+                            ),
                           );
                         },
                         child: const Icon(
