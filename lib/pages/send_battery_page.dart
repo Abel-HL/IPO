@@ -60,8 +60,12 @@ class BatteryScreenState extends State<SendBatteryPage> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => ReceiveBatteryPage(),
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const ReceiveBatteryPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
                   ),
                 );
               });
@@ -72,8 +76,12 @@ class BatteryScreenState extends State<SendBatteryPage> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
                   ),
                 );
               });
@@ -184,17 +192,36 @@ class BatteryScreenState extends State<SendBatteryPage> {
                   ),
                   const SizedBox(height: 59),
 
-                  const Text(
-                    'Available Battery:   76%',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'Available Battery  ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Icon(
+                        Icons.double_arrow_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      Text(
+                        '  76%',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +240,7 @@ class BatteryScreenState extends State<SendBatteryPage> {
 
 
                   //forgot password??
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -243,7 +270,7 @@ class BatteryScreenState extends State<SendBatteryPage> {
                     ],
                   ),
 
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 46),
                   //sign in button
                   MyButton(
                     onTap: () => const HomePage(),

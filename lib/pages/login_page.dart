@@ -16,8 +16,15 @@ class LoginPage extends StatelessWidget{
   // SingIn user in method
   void signUserIn(BuildContext context) {
     // Aquí agregas la lógica para autenticar al usuario y manejar la navegación a la página de inicio ("home page")
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (BuildContext context) => const HomePage()),
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+        pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child; // Retorna directamente el child sin aplicar ninguna animación
+        },
+      ),
     );
   }
 

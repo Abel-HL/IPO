@@ -41,10 +41,14 @@ class HomePageState extends State<HomePage> {
               Future.delayed(const Duration(milliseconds: 400), ()
               {
                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) => ReceiveBatteryPage(),
-                ),
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const ReceiveBatteryPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
+                  ),
                 );
               });
               break;
@@ -57,8 +61,12 @@ class HomePageState extends State<HomePage> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => SendBatteryPage(),
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const SendBatteryPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
                   ),
                 );
               });

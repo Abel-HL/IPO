@@ -34,6 +34,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
           onChanged: (value) {
             setState(() {
               _batteryPercentage = value;
+
             });
           },
         );
@@ -67,8 +68,12 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
                   ),
                 );
               });
@@ -79,8 +84,12 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => SendBatteryPage(),
+                  PageRouteBuilder(
+                    transitionDuration: Duration.zero, // Establece la duración de la transición en cero
+                    pageBuilder: (context, animation, secondaryAnimation) => const SendBatteryPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return child; // Retorna directamente el child sin aplicar ninguna animación
+                    },
                   ),
                 );
               });
@@ -244,7 +253,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      BatteryField(percentage: _batteryPercentage, showPercentageLabel: true),
+                      BatteryField(percentage: _batteryPercentage, showPercentageLabel: false),
                       const SizedBox(width: 20), // Espacio entre el texto y el botón
                       CustomButton(
                         text: 'Change %',

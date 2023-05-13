@@ -23,7 +23,7 @@ class BatteryField extends StatelessWidget {
     if (showPercentageLabel) {
       text = 'Send: $percentage%';
     } else {
-      text = 'Request: $percentage%     $mAh mAh';
+      text = 'Request: $percentage%';
     }
 
     return Text(
