@@ -3,6 +3,8 @@ import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'package:trabajo_final/components/my_textfield.dart';
 import 'dart:math';
+import 'package:trabajo_final/globals/total_battery.dart';
+
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:trabajo_final/pages/login_page.dart';
@@ -45,6 +47,7 @@ class BatteryScreenState extends State<SendBatteryPage> {
 
   @override
   Widget build(BuildContext context) {
+    //BatteryInfo();
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
@@ -194,8 +197,8 @@ class BatteryScreenState extends State<SendBatteryPage> {
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Available Battery  ',
                         style: TextStyle(
                           color: Colors.white,
@@ -204,14 +207,14 @@ class BatteryScreenState extends State<SendBatteryPage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.double_arrow_rounded,
                         color: Colors.white,
                         size: 18,
                       ),
                       Text(
-                        '  76%',
-                        style: TextStyle(
+                        '  ${BatteryInfo().batteryPercentage}%',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Nunito',
@@ -273,9 +276,91 @@ class BatteryScreenState extends State<SendBatteryPage> {
                   const SizedBox(height: 46),
                   //sign in button
                   MyButton(
-                    onTap: () => const HomePage(),
+                    onTap: () {
+                      if (BatteryInfo().batteryPercentage - _batteryPercentage > 0) {
+                        BatteryInfo().batteryPercentage -= _batteryPercentage;
+                        // Acción al hacer clic en el botón "Send"
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration: Duration.zero,
+                            pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              return child;
+                            },
+                          ),
+                        );
+                      } else {
+                        // Mostrar Popup de error
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: SizedBox(
+                                height: 160,
+                                width: 220,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                    'Error',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF075E95),
+                                      fontSize: 24,
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'Percentage should be less than ${BatteryInfo().batteryPercentage}%',
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Color(0xFF075E95),
+                                        fontFamily: 'Nunito',
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          style: TextButton.styleFrom(
+                                            backgroundColor:const Color(0xFF075E95).withOpacity(0.3), // Color de fondo con opacidad reducida
+                                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            'OK',
+                                            style: TextStyle(
+                                              color: Color(0xFF075E95),
+                                              fontSize: 20,
+                                              fontFamily: 'Nunito',
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
                     text: 'Send',
                   ),
+
 
                   const SizedBox(height: 47),
 
