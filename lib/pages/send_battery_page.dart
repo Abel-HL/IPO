@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'dart:math';
-import 'package:trabajo_final/globals/total_battery.dart';
+import 'package:trabajo_final/globals/battery_global.dart';
 
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -21,7 +21,8 @@ class SendBatteryPage extends StatefulWidget{
 
 class BatteryScreenState extends State<SendBatteryPage> {
   bool showPopup = false;
-  int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
+  int _batteryPercentage = SendPercentageInfo().sendPercentage; // Valor inicial del porcentaje de batería
+  String _selectedContact = "Select"; // Declaración de la variable de estado
   final int _maxmAh = 5000;
 
   void _showBatteryPopup(BuildContext context) {
@@ -39,6 +40,24 @@ class BatteryScreenState extends State<SendBatteryPage> {
       },
     );
   }
+
+
+  void _showContactsPopup(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContactPage(
+          initialValue: _selectedContact,
+          onContactSelected: (String value) {  },
+        ),
+      ),
+    ).then((contact) {
+      setState(() {
+        _selectedContact = contact ?? "JosePedro"; // Asignar valor predeterminado si el contacto es nulo
+      });
+    });
+  }
+
 
   int calculatemAhFromPercentage(int percentage) {
     return (percentage / 100 * _maxmAh).floor();
@@ -59,6 +78,7 @@ class BatteryScreenState extends State<SendBatteryPage> {
           switch (index) {
             case 0:
             // Navegar a Receive_Battery
+              SendPercentageInfo().sendPercentage = _batteryPercentage;
               Future.delayed(const Duration(milliseconds: 400), ()
               {
                 Navigator.push(
@@ -74,7 +94,8 @@ class BatteryScreenState extends State<SendBatteryPage> {
               });
               break;
             case 1:
-            // Navegar a Receive_Battery
+            // Navegar a Home
+              SendPercentageInfo().sendPercentage = _batteryPercentage;
               Future.delayed(const Duration(milliseconds: 400), ()
               {
                 Navigator.push(
@@ -256,19 +277,21 @@ class BatteryScreenState extends State<SendBatteryPage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _selectedContact,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(width: 80),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              transitionDuration: Duration.zero,
-                              pageBuilder: (context, animation, secondaryAnimation) => const ContactPage(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return child;
-                              },
-                            ),
-                          );
+                        onTap: () async {
+                          SendPercentageInfo().sendPercentage = _batteryPercentage;
+                          _showContactsPopup(context);
                         },
                         child: const Icon(
                           Icons.contacts,
@@ -286,6 +309,7 @@ class BatteryScreenState extends State<SendBatteryPage> {
                       if (BatteryInfo().batteryPercentage - _batteryPercentage > 0) {
                         BatteryInfo().batteryPercentage -= _batteryPercentage;
                         // Acción al hacer clic en el botón "Send"
+                        SendPercentageInfo().sendPercentage = 10;
                         Navigator.push(
                           context,
                           PageRouteBuilder(

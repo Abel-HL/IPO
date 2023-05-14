@@ -7,7 +7,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:trabajo_final/pages/contacts_page.dart';
 import 'package:trabajo_final/pages/login_page.dart';
 
-import '../globals/total_battery.dart';
+
+import '../globals/battery_global.dart';
 import '../operations/battery_field.dart';
 import 'home_page.dart';
 import 'send_battery_page.dart';
@@ -24,7 +25,7 @@ class ReceiveBatteryPage extends StatefulWidget{
 }
 
 class BatteryScreenState extends State<ReceiveBatteryPage> {
-  int _batteryPercentage = 10; // Valor inicial del porcentaje de batería
+  int _batteryPercentage = RequestPercentageInfo().requestPercentage; // Valor inicial del porcentaje de batería
   final int _maxmAh = 5000;
 
   void _showBatteryPopup(BuildContext context) {
@@ -65,7 +66,8 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
             // Navegar a Receive_Battery
               break;
             case 1:
-            // Navegar a Receive_Battery
+            // Navegar a HomePage_Battery
+              RequestPercentageInfo().requestPercentage = _batteryPercentage;
               Future.delayed(const Duration(milliseconds: 400), ()
               {
                 Navigator.push(
@@ -81,7 +83,8 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
               });
               break;
             case 2:
-            // Navegar a Receive_Battery
+            // Navegar a Send_Battery
+              RequestPercentageInfo().requestPercentage = _batteryPercentage;
               Future.delayed(const Duration(milliseconds: 400), ()
               {
                 Navigator.push(
@@ -284,11 +287,12 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                       const SizedBox(width: 80),
                       GestureDetector(
                         onTap: () {
+                          RequestPercentageInfo().requestPercentage = _batteryPercentage;
                           Navigator.push(
                             context,
                             PageRouteBuilder(
                               transitionDuration: Duration.zero,
-                              pageBuilder: (context, animation, secondaryAnimation) => const ContactPage(),
+                              pageBuilder: (context, animation, secondaryAnimation) =>  ContactPage(initialValue: 'ada',),
                               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                 return child;
                               },
@@ -311,6 +315,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                       if (BatteryInfo().batteryPercentage + _batteryPercentage <= 100) {
                         BatteryInfo().batteryPercentage += _batteryPercentage;
                         // Acción al hacer clic en el botón "Send"
+                        RequestPercentageInfo().requestPercentage = 10;
                         Navigator.push(
                           context,
                           PageRouteBuilder(

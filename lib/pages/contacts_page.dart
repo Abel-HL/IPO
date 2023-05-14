@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 
+import 'package:trabajo_final/globals/battery_global.dart';
+import '../globals/contacts_global.dart';
 import 'send_battery_page.dart';
 import 'receive_battery_page.dart';
 import 'home_page.dart';
@@ -9,17 +11,29 @@ import 'home_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class ContactPage extends StatefulWidget {
+  final String? initialValue;
+  final void Function(String)? onContactSelected;
 
-
-  const ContactPage({Key? key}) : super(key: key);
+  ContactPage({
+    Key? key,
+    required this.initialValue,
+    this.onContactSelected
+  }) : super(key: key);
 
   @override
   ContactPageState createState() => ContactPageState();
 }
 
 class ContactPageState extends State<ContactPage> {
-  final List<String> randomNames = List.generate(10, (index) => generateRandomName());
-  final List<String> randomPhoneNumbers = List.generate(10, (index) => generateRandomPhoneNumber());
+  List<String> randomNames = ContactsInfo().randomNames;
+  List<String> randomPhoneNumbers = ContactsInfo().randomPhoneNumbers;
+  late String _contactSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    _contactSelected = widget.initialValue ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +158,6 @@ class ContactPageState extends State<ContactPage> {
           ),
         ),
 
-
-
         Positioned(
           top: 90,
           left: 0,
@@ -176,9 +188,14 @@ class ContactPageState extends State<ContactPage> {
             child: ListView.separated(
               padding: const EdgeInsets.only(bottom: 16), // Agrega un padding inferior
               itemCount: randomNames.length > 8 ? 8 : randomNames.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.white, height: 1), // Agrega un separador entre los contactos
+              separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.white, height: 1), // Agrega un separador entre los contactos
               itemBuilder: (BuildContext context, int index) {
-                return Container(
+                return InkWell(
+                    onTap: () {
+                      widget.onContactSelected!("Villa");
+                      Navigator.of(context).pop(); // Llamamos a la función para seleccionar el contacto
+                    },
+                child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 120,
                   color: const Color(0xFF075E95),
@@ -226,17 +243,11 @@ class ContactPageState extends State<ContactPage> {
                       ),
                     ],
                   ),
+                ),
                 );
               },
             ),
           ),
-
-
-
-
-
-
-
         ],
       ),
     );
@@ -244,33 +255,3 @@ class ContactPageState extends State<ContactPage> {
 }
 
 
-
-String generateRandomName() {
-  List<String> names = [
-    'John',
-    'Jane',
-    'Michael',
-    'Emily',
-    'David',
-    'Sarah',
-    'Daniel',
-    'Olivia',
-  ];
-
-  Random random = Random();
-  int index = random.nextInt(names.length);
-  return names[index];
-}
-
-String generateRandomPhoneNumber() {
-  Random random = Random();
-  String phoneNumber = '+';
-  for (int i = 0; i < 11; i++) {
-    if (i == 2 || i == 5 || i == 7 || i==9) {
-      phoneNumber += ' ';
-    }
-    int digit = random.nextInt(10);
-    phoneNumber += digit.toString();
-  }
-  return phoneNumber;
-}
