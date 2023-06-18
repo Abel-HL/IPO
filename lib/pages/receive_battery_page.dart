@@ -26,6 +26,7 @@ class ReceiveBatteryPage extends StatefulWidget{
 
 class BatteryScreenState extends State<ReceiveBatteryPage> {
   int _batteryPercentage = RequestPercentageInfo().requestPercentage; // Valor inicial del porcentaje de batería
+  String _selectedContact = '';
   final int _maxmAh = 5000;
 
   void _showBatteryPopup(BuildContext context) {
@@ -44,6 +45,23 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
       },
     );
   }
+
+  void _showContactsPopup(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContactPage(
+          initialValue: _selectedContact,
+          onContactSelected: (String value) {
+            setState(() {
+              _selectedContact = value; // Actualizar el valor del contacto seleccionado
+            });
+          },
+        ),
+      ),
+    );
+  }
+
 
   int calculatemAhFromPercentage(int percentage) {
     return (percentage / 100 * _maxmAh).floor();
@@ -269,14 +287,15 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                       ),
                     ],
                   ),
-                  //forgot password??
-                  const SizedBox(height: 30),
 
+
+                  //Contact field
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Contact',
+                        'Contact ',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -284,20 +303,25 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 80),
+                      const Icon(
+                        Icons.double_arrow_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _selectedContact,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 40),
                       GestureDetector(
-                        onTap: () {
-                          RequestPercentageInfo().requestPercentage = _batteryPercentage;
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              transitionDuration: Duration.zero,
-                              pageBuilder: (context, animation, secondaryAnimation) =>  ContactPage(initialValue: 'ada',),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return child;
-                              },
-                            ),
-                          );
+                        onTap: () async {
+                          _showContactsPopup(context);
                         },
                         child: const Icon(
                           Icons.contacts,
@@ -305,6 +329,20 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                           size: 18,
                         ),
                       ),
+                      const SizedBox(width: 5),
+                      if (_selectedContact.isNotEmpty) // Verifica si hay un usuario seleccionado
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedContact = ''; // Elimina la selección del usuario
+                            });
+                          },
+                          child: const Icon(
+                            Icons.clear,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
                     ],
                   ),
 

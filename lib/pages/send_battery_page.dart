@@ -22,7 +22,7 @@ class SendBatteryPage extends StatefulWidget{
 class BatteryScreenState extends State<SendBatteryPage> {
   bool showPopup = false;
   int _batteryPercentage = SendPercentageInfo().sendPercentage; // Valor inicial del porcentaje de batería
-  String _selectedContact = "Select"; // Declaración de la variable de estado
+  String _selectedContact = ''; // Declaración de la variable de estado
   final int _maxmAh = 5000;
 
   void _showBatteryPopup(BuildContext context) {
@@ -48,15 +48,16 @@ class BatteryScreenState extends State<SendBatteryPage> {
       MaterialPageRoute(
         builder: (context) => ContactPage(
           initialValue: _selectedContact,
-          onContactSelected: (String value) {  },
+          onContactSelected: (String value) {
+            setState(() {
+              _selectedContact = value; // Actualizar el valor del contacto seleccionado
+            });
+          },
         ),
       ),
-    ).then((contact) {
-      setState(() {
-        _selectedContact = contact ?? "JosePedro"; // Asignar valor predeterminado si el contacto es nulo
-      });
-    });
+    );
   }
+
 
 
   int calculatemAhFromPercentage(int percentage) {
@@ -263,19 +264,24 @@ class BatteryScreenState extends State<SendBatteryPage> {
                   ),
 
 
-                  //forgot password??
+                  //Contact field
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Contact',
+                        'Contact ',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Nunito',
                           fontWeight: FontWeight.w700,
                         ),
+                      ),
+                      const Icon(
+                        Icons.double_arrow_rounded,
+                        color: Colors.white,
+                        size: 18,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -287,10 +293,9 @@ class BatteryScreenState extends State<SendBatteryPage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 80),
+                      const SizedBox(width: 40),
                       GestureDetector(
                         onTap: () async {
-                          SendPercentageInfo().sendPercentage = _batteryPercentage;
                           _showContactsPopup(context);
                         },
                         child: const Icon(
@@ -299,6 +304,20 @@ class BatteryScreenState extends State<SendBatteryPage> {
                           size: 18,
                         ),
                       ),
+                      const SizedBox(width: 5),
+                      if (_selectedContact.isNotEmpty) // Verifica si hay un usuario seleccionado
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedContact = ''; // Elimina la selección del usuario
+                            });
+                          },
+                          child: const Icon(
+                            Icons.clear,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
                     ],
                   ),
 

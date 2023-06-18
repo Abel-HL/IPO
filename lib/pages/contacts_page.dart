@@ -14,7 +14,7 @@ class ContactPage extends StatefulWidget {
   final String? initialValue;
   final void Function(String)? onContactSelected;
 
-  ContactPage({
+  const ContactPage({
     Key? key,
     required this.initialValue,
     this.onContactSelected
@@ -187,63 +187,64 @@ class ContactPageState extends State<ContactPage> {
             bottom: 60, // Ajusta el valor según el tamaño de tu barra de navegación inferior
             child: ListView.separated(
               padding: const EdgeInsets.only(bottom: 16), // Agrega un padding inferior
-              itemCount: randomNames.length > 8 ? 8 : randomNames.length,
-              separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.white, height: 1), // Agrega un separador entre los contactos
+              itemCount: randomNames.length > 5 ? 5 : randomNames.length, // Mostrar solo 5 contactos
+              separatorBuilder: (BuildContext context, int index) =>
+              const Divider(color: Colors.white, height: 1), // Agrega un separador entre los contactos
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                    onTap: () {
-                      widget.onContactSelected!("Villa");
-                      Navigator.of(context).pop(); // Llamamos a la función para seleccionar el contacto
-                    },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 120,
-                  color: const Color(0xFF075E95),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Icon(
-                          Icons.contact_phone,
-                          color: Colors.white,
-                          size: 40,
+                  onTap: () {
+                    widget.onContactSelected!(randomNames[index]);
+                    Navigator.of(context).pop(); // Llamamos a la función para seleccionar el contacto
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 120,
+                    color: const Color(0xFF075E95),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Icon(
+                            Icons.contact_phone,
+                            color: Colors.white,
+                            size: 40,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              randomNames[index],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 8,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              randomPhoneNumbers[index],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Nunito',
-                                fontSize: 16,
+                              Text(
+                                randomNames[index],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                randomPhoneNumbers[index],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Nunito',
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
                 );
               },
             ),
