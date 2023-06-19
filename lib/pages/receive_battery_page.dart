@@ -9,6 +9,7 @@ import 'package:trabajo_final/pages/login_page.dart';
 
 
 import '../globals/battery_global.dart';
+import '../globals/username_global.dart';
 import '../operations/battery_field.dart';
 import 'home_page.dart';
 import 'send_battery_page.dart';
@@ -62,6 +63,21 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
     );
   }
 
+  String getBatteryImage(int batteryPercentage) {
+    if (batteryPercentage >= 0 && batteryPercentage < 15) {
+      return 'lib/images/percentages/0_gif_0.png';
+    } else if (batteryPercentage >= 15 && batteryPercentage < 25) {
+      return 'lib/images/percentages/15_giphy.png';
+    } else if (batteryPercentage >= 25 && batteryPercentage < 50) {
+      return 'lib/images/percentages/25_giphy.png';
+    } else if (batteryPercentage >= 50 && batteryPercentage < 75) {
+      return 'lib/images/percentages/50_giphy.png';
+    } else if (batteryPercentage >= 75 && batteryPercentage < 95) {
+      return 'lib/images/percentages/75_giphy.png';
+    } else {
+      return 'lib/images/percentages/100_giphy.png';
+    }
+  }
 
   int calculatemAhFromPercentage(int percentage) {
     return (percentage / 100 * _maxmAh).floor();
@@ -163,12 +179,12 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(width: 22),
-                    const Text(
-                      'Name',
-                      style: TextStyle(
+                    const SizedBox(width: 20),
+                    Text(
+                      UserName().username,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 22,
                         fontFamily: 'Nunito',
                         fontWeight: FontWeight.w700,
                       ),
@@ -185,7 +201,7 @@ class BatteryScreenState extends State<ReceiveBatteryPage> {
             child: Transform.rotate(
               angle: 90 * pi / 180,
               child: Image.asset(
-                'lib/images/percentages/75_giphy.png',
+                getBatteryImage(BatteryInfo().batteryPercentage),
                 width: 117.75,
                 height: 223.5,
                 //width: MediaQuery.of(context).size.height * 1,

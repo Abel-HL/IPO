@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:trabajo_final/globals/battery_global.dart';
+import 'package:trabajo_final/globals/username_global.dart';
+
 import 'receive_battery_page.dart';
 import 'send_battery_page.dart';
 
@@ -22,6 +25,22 @@ class HomePageState extends State<HomePage> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  String getBatteryImage(int batteryPercentage) {
+    if (batteryPercentage >= 0 && batteryPercentage < 15) {
+      return 'lib/images/percentages/0_gif_0.png';
+    } else if (batteryPercentage >= 15 && batteryPercentage < 25) {
+      return 'lib/images/percentages/15_giphy.png';
+    } else if (batteryPercentage >= 25 && batteryPercentage < 50) {
+      return 'lib/images/percentages/25_giphy.png';
+    } else if (batteryPercentage >= 50 && batteryPercentage < 75) {
+      return 'lib/images/percentages/50_giphy.png';
+    } else if (batteryPercentage >= 75 && batteryPercentage < 95) {
+      return 'lib/images/percentages/75_giphy.png';
+    } else {
+      return 'lib/images/percentages/100_giphy.png';
+    }
   }
 
   @override
@@ -117,12 +136,12 @@ class HomePageState extends State<HomePage> {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(width: 22),
-                    const Text(
-                      'Name',
-                      style: TextStyle(
+                    const SizedBox(width: 18),
+                    Text(
+                      UserName().username,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 22,
                         fontFamily: 'Nunito',
                         fontWeight: FontWeight.w700,
                       ),
@@ -142,7 +161,7 @@ class HomePageState extends State<HomePage> {
                 bottomRight: Radius.circular(20.0),
               ),
               child: Image.asset(
-                'lib/images/percentages/50_giphy.png',
+                getBatteryImage(BatteryInfo().batteryPercentage),
                 width: 250.0,
                 height: 250.0,
               ),
