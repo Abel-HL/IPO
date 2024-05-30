@@ -3,10 +3,7 @@ import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'dart:math';
 import 'package:trabajo_final/globals/battery_global.dart';
-
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:trabajo_final/pages/login_page.dart';
 import '../globals/username_global.dart';
 import '../operations/battery_field.dart';
 import 'contacts_page.dart';

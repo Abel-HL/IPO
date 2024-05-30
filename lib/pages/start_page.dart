@@ -8,7 +8,7 @@ import 'login_page.dart';
 
 
 class StartPage extends StatefulWidget {
-  const StartPage({Key? key}) : super(key: key);
+  const StartPage({super.key});
 
   @override
   StartPageState createState() => StartPageState();

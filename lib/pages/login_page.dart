@@ -7,7 +7,7 @@ import 'package:trabajo_final/globals/username_global.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget{
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({super.key});
 
 
  // text editing controllers
@@ -88,11 +88,11 @@ class LoginPage extends StatelessWidget{
 
                           //forgot password??
                           const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: const[
+                              children: [
                                 Text(
                                   'Forgot Password?',
                                   style: TextStyle(

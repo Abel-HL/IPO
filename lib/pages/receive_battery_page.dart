@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trabajo_final/components/buttons/my_button.dart';
 import 'package:trabajo_final/components/buttons/change_percentage_button.dart';
 import 'dart:math';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:trabajo_final/pages/contacts_page.dart';
-import 'package:trabajo_final/pages/login_page.dart';
 
 
 import '../globals/battery_global.dart';

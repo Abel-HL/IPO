@@ -7,8 +7,7 @@ class MyButton extends StatelessWidget{
 
 
 
-  const MyButton({Key? key, required this.onTap, required this.text})
-      : super(key: key);
+  const MyButton({super.key, required this.onTap, required this.text});
 
 
   @override

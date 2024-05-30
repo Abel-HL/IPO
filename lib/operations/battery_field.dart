@@ -2,22 +2,16 @@ import 'package:flutter/material.dart';
 
 class BatteryField extends StatelessWidget {
   final int percentage;
-  final int maxmAh = 5000;
   final bool showPercentageLabel;
 
   const BatteryField({
-    Key? key,
+    super.key,
     required this.percentage,
     this.showPercentageLabel = false,
-  }) : super(key: key);
-
-  int calculatemAhFromPercentage(int percentage) {
-    return (percentage / 100 * maxmAh).floor();
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
-    final mAh = calculatemAhFromPercentage(percentage);
 
     String text;
     if (showPercentageLabel) {
@@ -43,10 +37,10 @@ class BatteryPopup extends StatefulWidget {
   final ValueChanged<int> onChanged;
 
   const BatteryPopup({
-    Key? key,
+    super.key,
     required this.initialValue,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   BatteryPopupState createState() => BatteryPopupState();

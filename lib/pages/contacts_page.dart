@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-
-
-import 'package:trabajo_final/globals/battery_global.dart';
 import '../globals/contacts_global.dart';
 import 'send_battery_page.dart';
 import 'receive_battery_page.dart';
 import 'home_page.dart';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class ContactPage extends StatefulWidget {
@@ -15,10 +10,10 @@ class ContactPage extends StatefulWidget {
   final void Function(String)? onContactSelected;
 
   const ContactPage({
-    Key? key,
+    super.key,
     required this.initialValue,
     this.onContactSelected
-  }) : super(key: key);
+  });
 
   @override
   ContactPageState createState() => ContactPageState();
@@ -27,12 +22,10 @@ class ContactPage extends StatefulWidget {
 class ContactPageState extends State<ContactPage> {
   List<String> randomNames = ContactsInfo().randomNames;
   List<String> randomPhoneNumbers = ContactsInfo().randomPhoneNumbers;
-  late String _contactSelected;
 
   @override
   void initState() {
     super.initState();
-    _contactSelected = widget.initialValue ?? '';
   }
 
   @override
